@@ -1,7 +1,5 @@
 import operator
 from math import log
-# from pickletools import I
-
 
 def liczenieEntropii(dataSet):
     liczbaInstancji = len(dataSet) #liczba instancji w zbiorze danych
@@ -16,39 +14,6 @@ def liczenieEntropii(dataSet):
         prawdopodobienstwo = float(liczbaEtykiet[key])/liczbaInstancji #prawdopodobienstwo=liczbawystapien etykiety/liczba instancji
         entropia -= prawdopodobienstwo * log(prawdopodobienstwo, 2) #odjęcie wartosci
     return entropia #zwrocenie shannonEnt
-
-#def createDataSet(): #stworzenie bazy danych
-#    dataSet = [[1, 0, 0, 0, 0, 0, 'niedzwiedz polarny'],
-#               [0, 1, 0, 0, 0, 0, 'panda wielka'],
-#               [0, 0, 0, 0, 0, 0, 'niedzwiedz brunatny'],
-#               [0, 0, 1, 1, 0, 0, 'wargacz'],
-#               [0, 0, 1, 0, 1, 0,  'niedzwiedz andyjski'],
-#               [0, 0, 1, 0, 0, 1, 'niedzwiedz himalajski'],
-#               [0, 0, 1, 0, 0, 0, 'baribal']]
-#    labels = ['bialy', 'czarno-bialy', 'czarny', 'duza warga', 'plama w ksztalcie okularow', 'plama w ksztalcie V']
-#    return dataSet, labels
-
-# def createDataSet():
-#     dataSet = [[1, 0, 0, 0, 0, 0, 'niedzwiedz polarny'],
-#                [1, 0, 0, 0, 0, 0, 'niedzwiedz polarny'],
-#                [1, 0, 0, 0, 0, 0, 'niedzwiedz polarny'],
-#                [0, 1, 0, 0, 0, 0, 'panda wielka'],
-#                [0, 1, 0, 0, 0, 0, 'panda wielka'],
-#                [0, 0, 0, 0, 0, 0, 'niedzwiedz brunatny'],
-#                [0, 0, 0, 0, 0, 0, 'niedzwiedz brunatny'],
-#                [0, 0, 0, 0, 0, 0, 'niedzwiedz brunatny'],
-#                [0, 0, 1, 1, 0, 0, 'wargacz'],
-#                [0, 0, 1, 1, 0, 0, 'wargacz'],
-#                [0, 0, 1, 1, 0, 0, 'wargacz'],
-#                [0, 0, 1, 0, 1, 0, 'niedzwiedz andyjski'],
-#                [0, 0, 1, 0, 1, 0, 'niedzwiedz andyjski'],
-#                [0, 0, 1, 0, 0, 1, 'niedzwiedz himalajski'],
-#                [0, 0, 1, 0, 0, 1, 'niedzwiedz himalajski'],
-#                [1, 0, 1, 0, 0, 0, 'baribal'],
-#                [1, 0, 1, 0, 0, 0, 'baribal'],
-#                [1, 0, 1, 0, 0, 0, 'baribal']]
-#     labels = ['bialy', 'czarno-bialy', 'czarny', 'duza warga', 'plama w ksztalcie okularow', 'plama w ksztalcie V']
-#     return dataSet, labels
 
 def createDataSet():
      dataSet = [['bialy', 'brak', 'niedzwiedz polarny'],
@@ -145,7 +110,6 @@ print(wyborNajlepszejCechy(myDat))
 myTree = stworzDrzewo(myDat, etykiety)
 print(myTree)
 import treeplotter
-# print(treeplotter.retrieveTree(1))
 print(treeplotter.getNumLeafs(myTree))
 print(treeplotter.getTreeDepth(myTree))
 treeplotter.createPlot(myTree)
