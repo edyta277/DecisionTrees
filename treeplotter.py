@@ -36,22 +36,6 @@ def getTreeDepth(myTree):
             if thisDepth > maxDepth: maxDepth = thisDepth
         return maxDepth
 
-#def retrieveTree(i):
- #   listOfTrees = [{'czarny': {0: {'bialy': {0: \
-  #                {'czarno-bialy': {0: 'niedzwiedz brunatny', 1: 'panda wielka'}}, 1: 'niedzwiedz polarny'}},
-   #               1: {'duza warga': {0: {'plama w ksztalcie okularow': {0: {'plama w ksztalcie V': {0: 'baribal', 1: 'niedzwiedz himalajski'}},
-    #              1: 'niedzwiedz andyjski'}}, 1: 'wargacz'}}}}
-     #             ]
-    #return listOfTrees[i]
-
-# def retrieveTree(i):
-#     listOfTrees =[{'no surfacing': {0: 'no', 1: {'flippers': \
-#                  {0: 'no', 1: 'yes'}}}},
-#                  {'no surfacing': {0: 'no', 1: {'flippers': \
-#                  {0: {'head': {0: 'no', 1: 'yes'}}, 1: 'no'}}}}
-#                  ]
-#     return listOfTrees[i]
-
 def plotMidText(cntrPt, parentPt, txtString):
     xMid = (parentPt[0]-cntrPt[0])/2.0 + cntrPt[0]
     yMid = (parentPt[1]-cntrPt[1])/2.0 + cntrPt[1]
