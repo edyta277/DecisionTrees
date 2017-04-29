@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 decisionNode = dict(boxstyle="sawtooth", fc="0.8")
 leafNode = dict(boxstyle="round4", fc="0.8")
-arrow_args = dict(arrowstyle="<-")
-def plotNode(nodeTxt, centerPt, parentPt, nodeType):
+arrow_args = dict(arrowstyle="<-") #stale uzywane do stworzenia galezi
+def plotNode(nodeTxt, centerPt, parentPt, nodeType): #funkcja rysujaca
         createPlot.ax1.annotate(nodeTxt, xy=parentPt,
     xycoords='axes fraction',
         xytext=centerPt, textcoords='axes fraction',
@@ -36,13 +36,13 @@ def getTreeDepth(myTree):
             if thisDepth > maxDepth: maxDepth = thisDepth
         return maxDepth
 
-def retrieveTree(i):
-    listOfTrees = [{'czarny': {0: {'bialy': {0: \
-                  {'czarno-bialy': {0: 'niedzwiedz brunatny', 1: 'panda wielka'}}, 1: 'niedzwiedz polarny'}},
-                  1: {'duza warga': {0: {'plama w ksztalcie okularow': {0: {'plama w ksztalcie V': {0: 'baribal', 1: 'niedzwiedz himalajski'}},
-                  1: 'niedzwiedz andyjski'}}, 1: 'wargacz'}}}}
-                  ]
-    return listOfTrees[i]
+#def retrieveTree(i):
+ #   listOfTrees = [{'czarny': {0: {'bialy': {0: \
+  #                {'czarno-bialy': {0: 'niedzwiedz brunatny', 1: 'panda wielka'}}, 1: 'niedzwiedz polarny'}},
+   #               1: {'duza warga': {0: {'plama w ksztalcie okularow': {0: {'plama w ksztalcie V': {0: 'baribal', 1: 'niedzwiedz himalajski'}},
+    #              1: 'niedzwiedz andyjski'}}, 1: 'wargacz'}}}}
+     #             ]
+    #return listOfTrees[i]
 
 # def retrieveTree(i):
 #     listOfTrees =[{'no surfacing': {0: 'no', 1: {'flippers': \
