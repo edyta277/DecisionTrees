@@ -1,10 +1,10 @@
 import operator
 from math import log
 
-def liczenieEntropii(dataSet):
-    liczbaInstancji = len(dataSet) #liczba instancji w zbiorze danych
+def liczenieEntropii(zbiorDanych):
+    liczbaInstancji = len(zbiorDanych) #liczba instancji w zbiorze danych
     liczbaEtykiet = {} #slownik (tablica indeksowana kluczami) -kluczami beda wartosci  ostatniej kolumny
-    for element in dataSet: #dla kazdej cechy w zbiorze danych
+    for element in zbiorDanych: #dla kazdej cechy w zbiorze danych
         aktualnaEtykieta = element[-1] #aktualna etykieta =...?
         if aktualnaEtykieta not in liczbaEtykiet.keys(): #jezeli currentLabel nie jest juz kluczem w LabelCounts (klucze nie moga sie powtarzac)
             liczbaEtykiet[aktualnaEtykieta] = 0 #wtedy liczba wynosi 0
@@ -15,8 +15,8 @@ def liczenieEntropii(dataSet):
         entropia -= prawdopodobienstwo * log(prawdopodobienstwo, 2) #odjęcie wartosci
     return entropia #zwrocenie shannonEnt
 
-def createDataSet():
-     dataSet = [['bialy', 'brak', 'niedzwiedz polarny'],
+def utworzZbiorDanych():
+     zbior = [['bialy', 'brak', 'niedzwiedz polarny'],
                 ['czarno-bialy', 'brak', 'panda wielka'],
                 ['brazowy', 'brak', 'niedzwiedz brunatny'],
                 ['czarny', 'duza warga', 'wargacz'],
@@ -24,29 +24,29 @@ def createDataSet():
                 ['czarny', 'plama w ksztalcie V', 'niedzwiedz himalajski'],
                 ['czarny', 'brak','baribal']]
      etykiety = ['kolor','cecha charakterystyczna']
-     return dataSet, etykiety
+     return zbior, etykiety
 
 def rozdzielenie(dataSet, cecha, wartoscCechy): #trzy dane wejsciowe:zbior danych, cecha, ktora podzielimy i wartosc cechy
     podzielonyZD = [] #tablica/lista
     for element in dataSet: #iteracja po kazdym elemencie w zbiorze danych
         if element[cecha] == wartoscCechy: #az do znalezenia wartosci ktorej szukamy
-            reducedFeatVec = element[:cecha]
-            reducedFeatVec.extend(element[cecha+1:])
-            podzielonyZD.append(reducedFeatVec) #dodanie szukanej wartosci
+            zmniejszony = element[:cecha]
+            zmniejszony.extend(element[cecha+1:])
+            podzielonyZD.append(zmniejszony) #dodanie szukanej wartosci
     return podzielonyZD
 
-def wyborNajlepszejCechy(dataSet): #Wwybiera najlepsza ceche do podzialu
-    liczbaCech = len(dataSet[0]) - 1 #liczba cech
-    podstawowaEntropia = liczenieEntropii(dataSet) #obliczenie shannon entropii przed podzialem
+def wyborNajlepszejCechy(zbiorDanych): #Wwybiera najlepsza ceche do podzialu
+    liczbaCech = len(zbiorDanych[0]) - 1 #liczba cech
+    podstawowaEntropia = liczenieEntropii(zbiorDanych) #obliczenie shannon entropii przed podzialem
     najlepszyZyskInformacji = 0.0; najlepszaCecha = -1
     for i in range(liczbaCech): #iteracja po kazdej cesze
-        featList = [example[i] for example in dataSet] #lista ..?
-        unikalneWartosci = set(featList) #ustalenie typu danych
+        listaCech = [example[i] for example in zbiorDanych] #lista ..?
+        unikalneWartosci = set(listaCech) #ustalenie typu danych
         nowaEntropia = 0.0 #nowa entropia po podziale
         for wartosc in unikalneWartosci: #iteracja po kazdej wartosci
-            subDataSet = rozdzielenie(dataSet, i, wartosc) #podzial zbioru danych
-            prawdopodobienstwo = len(subDataSet)/float(len(dataSet)) #obliczenie prawdopodobienstwa
-            nowaEntropia += prawdopodobienstwo * liczenieEntropii(subDataSet) #nowa entropia
+            podzbiorDanych = rozdzielenie(zbiorDanych, i, wartosc) #podzial zbioru danych
+            prawdopodobienstwo = len(podzbiorDanych)/float(len(zbiorDanych)) #obliczenie prawdopodobienstwa
+            nowaEntropia += prawdopodobienstwo * liczenieEntropii(podzbiorDanych) #nowa entropia
         zyskInformacji = podstawowaEntropia - nowaEntropia #obliczenie zysku na informacji
         if (zyskInformacji > najlepszyZyskInformacji):
             najlepszyZyskInformacji = zyskInformacji
@@ -62,48 +62,48 @@ def wystepowanieKlasy(listaKlas):
     posortowanaLiczbaKlas = sorted(liczbaKlas.iteritems(), key=operator.itemgetter(1), reverse=True)
     return posortowanaLiczbaKlas[0][0] #zwraca klase ktora najczesciej wystepowala
 
-def stworzDrzewo(dataSet,etykiety): #2 wyjscia - zbior danych i etykiety
-    listaKlas = [example[-1] for example in dataSet] #lista wszystkich etykiet klas
+def stworzDrzewo(zbiorDanych,etykiety): #2 wyjscia - zbior danych i etykiety
+    listaKlas = [example[-1] for example in zbiorDanych] #lista wszystkich etykiet klas
     if listaKlas.count(listaKlas[0]) == len(listaKlas): #jezeli wszystkie etykiety sa takie same
         return listaKlas[0] #wtedy zwracasz ta etykiete
-    if len(dataSet[0]) == 1: #jezeli nie ma juz cech do podzialu
+    if len(zbiorDanych[0]) == 1: #jezeli nie ma juz cech do podzialu
         return wystepowanieKlasy(listaKlas)
-    najlepszaCecha = wyborNajlepszejCechy(dataSet)#najlepsza cecha do podzialu
+    najlepszaCecha = wyborNajlepszejCechy(zbiorDanych)#najlepsza cecha do podzialu
     etykietaNajlepszejCechy = etykiety[najlepszaCecha] #etykieta najleszej cechy
     mojeDrzewo = {etykietaNajlepszejCechy:{}}#slownik ...?
     del(etykiety[najlepszaCecha]) #usuniecie z bazy danych etykiety bestFeat
-    wartosciCech = [example[najlepszaCecha] for example in dataSet] #cechy dla wartosci bestfeat
+    wartosciCech = [example[najlepszaCecha] for example in zbiorDanych] #cechy dla wartosci bestfeat
     unikalneWartosci = set(wartosciCech) #unikalne wartosci cechy beatFeat
     for wartosc in unikalneWartosci: #iteracja po unikalnych wartosciach
         kopiaEtykiet = etykiety[:] #kopia listy labels
         mojeDrzewo[etykietaNajlepszejCechy][wartosc] = stworzDrzewo(rozdzielenie\
-                (dataSet, najlepszaCecha, wartosc),kopiaEtykiet)#rekurencyjne wywolanie funkcji
+                (zbiorDanych, najlepszaCecha, wartosc),kopiaEtykiet)#rekurencyjne wywolanie funkcji
     return mojeDrzewo
 
-def classify(inputTree,featLabels,testVec):
-    firstStr = inputTree.keys()[0]
-    secondDict = inputTree[firstStr]
-    featIndex = featLabels.index(firstStr)
-    for key in secondDict.keys():
-        if testVec[featIndex] == key:
-            if type(secondDict[key]).__name__=='dict':
-                classLabel = classify(secondDict[key],featLabels,testVec)
-            else:   classLabel = secondDict[key]
-    return classLabel
+def klasyfikuj(wejscie,etykiety,test): #klasyfikacja do klas
+    pierwszy = wejscie.keys()[0]
+    drugi = wejscie[pierwszy]
+    indeks = etykiety.index(pierwszy)
+    for key in drugi.keys():
+        if test[indeks] == key:
+            if type(drugi[key]).__name__=='dict':
+                nazwaKlasy = klasyfikuj(drugi[key],etykiety,test)
+            else:   nazwaKlasy = drugi[key]
+    return nazwaKlasy
 
-def storeTree(inputTree, filename):
+def zapiszDrzewo(wejscie, nazwaPliku):
     import pickle
-    fw = open(filename, 'w')
-    pickle.dump(inputTree, fw)
+    fw = open(nazwaPliku, 'w')
+    pickle.dump(wejscie, fw)
     fw.close()
 
-def grabTree(filename):
+def otworzDrzewo(nazwaPliku):
     import pickle
-    fr = open(filename)
+    fr = open(nazwaPliku)
     return pickle.load(fr)
 
 myDat = []
-myDat, etykiety = createDataSet()
+myDat, etykiety = utworzZbiorDanych()
 print(myDat)
 print(liczenieEntropii(myDat))
 print(wyborNajlepszejCechy(myDat))
