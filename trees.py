@@ -26,10 +26,10 @@ def utworzZbiorDanych():
      etykiety = ['kolor','cecha charakterystyczna']
      return zbior, etykiety
 
-def rozdzielenie(dataSet, cecha, wartoscCechy): #trzy dane wejsciowe:zbior danych, cecha, ktora podzielimy i wartosc cechy
+def rozdzielenie(zbiorDanych, cecha, wartoscCechy): #trzy dane wejsciowe:zbior danych, cecha, ktora podzielimy i wartosc cechy
     podzielonyZD = [] #tablica/lista
-    for element in dataSet: #iteracja po kazdym elemencie w zbiorze danych
-        if element[cecha] == wartoscCechy: #az do znalezenia wartosci ktorej szukamy
+    for element in zbiorDanych: #iteracja po kazdym elemencie w zbiorze danych
+        if element[cecha] == wartoscCechy: #az do znalezienia wartosci ktorej szukamy
             zmniejszony = element[:cecha]
             zmniejszony.extend(element[cecha+1:])
             podzielonyZD.append(zmniejszony) #dodanie szukanej wartosci
@@ -54,12 +54,12 @@ def wyborNajlepszejCechy(zbiorDanych): #Wwybiera najlepsza ceche do podzialu
     return najlepszaCecha #zwrocenie najlepszej cechy
 
 def wystepowanieKlasy(listaKlas):
-    liczbaKlas={} #slownik gdzie kluczami beda unikalne wartosci w classList
-    for element in listaKlas: #iteracja po elementach classList
-        if element not in liczbaKlas.keys(): #jezeli element nie jest kluczme
-            liczbaKlas[element] = 0 #wtedy nadajemy mu wartosc 0
-        liczbaKlas[element] += 1 #dodanie wartosci
-    posortowanaLiczbaKlas = sorted(liczbaKlas.iteritems(), key=operator.itemgetter(1), reverse=True)
+    slownikKlas={} #slownik gdzie kluczami beda unikalne wartosci w listaKlas
+    for element in listaKlas: #iteracja po elementach listaKlas
+        if element not in slownikKlas.keys(): #jezeli element nie jest kluczem
+            slownikKlas[element] = 0 #wtedy nadajemy mu wartosc 0
+            slownikKlas[element] += 1 #dodanie wartosci
+    posortowanaLiczbaKlas = sorted(slownikKlas.iteritems(), key=operator.itemgetter(1), reverse=True)
     return posortowanaLiczbaKlas[0][0] #zwraca klase ktora najczesciej wystepowala
 
 def stworzDrzewo(zbiorDanych,etykiety): #2 wyjscia - zbior danych i etykiety
@@ -94,13 +94,13 @@ def klasyfikuj(wejscie,etykiety,test): #klasyfikacja do klas
 def zapiszDrzewo(wejscie, nazwaPliku):
     import pickle
     fw = open(nazwaPliku, 'w')
-    pickle.dump(wejscie, fw)
+    pickle.dump(wejscie, fw) #zapis do pliku
     fw.close()
 
 def otworzDrzewo(nazwaPliku):
     import pickle
     fr = open(nazwaPliku)
-    return pickle.load(fr)
+    return pickle.load(fr) #odczyt z pliku
 
 myDat = []
 myDat, etykiety = utworzZbiorDanych()
